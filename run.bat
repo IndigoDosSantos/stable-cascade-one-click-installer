@@ -12,7 +12,10 @@ python -m venv venv
 REM Activate the virtual environment
 call venv\Scripts\activate.bat
 
-REM Install requirements
+REM Install the custom diffusers version from GitHub
+pip install git+https://github.com/kashif/diffusers.git@wuerstchen-v3
+
+REM Install other requirements
 pip install -r requirements.txt
 
 echo Installation completed. Run your script with the virtual environment activated.
