@@ -1,3 +1,10 @@
+# This file contains code that is derived from Stability AI's software products, 
+# which are licensed under the Stability AI Non-Commercial Research Community License Agreement.
+# Copyright (c) Stability AI Ltd. All Rights Reserved.
+#
+# The original work is provided by Stability AI and is available under the terms of the 
+# Stability AI Non-Commercial Research Community License Agreement, dated November 28, 2023.
+# For more information, see https://stability.ai/use-policy.
 import torch
 from diffusers import StableCascadeDecoderPipeline, StableCascadePriorPipeline
 import os
