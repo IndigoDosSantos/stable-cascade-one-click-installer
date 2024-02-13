@@ -30,19 +30,18 @@ with torch.cuda.amp.autocast(dtype=dtype):
         output_type="pil",
     ).images
 
-# Specify your desired absolute path
-output_directory = "E:\Stable-Cascade-vDiffusers\Output" 
+# Use a relative path for the output directory
+output_directory = "./Output"  # This will create an 'Output' folder in the current working directory
 
 # Ensure the output directory exists
-os.makedirs(output_directory, exist_ok=True) 
+os.makedirs(output_directory, exist_ok=True)
 
-# Display or save images 
+# Display or save images
 for i, image in enumerate(decoder_output):
     # Display the image (optional)
     image.show()
 
     # Generate a unique filename using a UUID
-    unique_filename = f"generated_image_{uuid.uuid4()}.png" 
+    unique_filename = f"generated_image_{uuid.uuid4()}.png"
     save_path = os.path.join(output_directory, unique_filename)
     image.save(save_path)
-    
