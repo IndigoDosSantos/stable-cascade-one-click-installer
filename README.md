@@ -10,7 +10,7 @@ Easy setup for generating beautiful images with Stable Cascade.
 
 3. **Install**: Double-click the `install.bat` file to automatically set up all dependencies.
 
-4. **Generate**: Double-click `Code_Example-v0.0.3.py` to open the image generation script and get creative!
+4. **Generate**: Double-click `generate_images.bat` to open the image generation script and get creative!
 
 ### Requirements
 
