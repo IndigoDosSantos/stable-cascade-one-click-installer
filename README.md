@@ -2,7 +2,7 @@
 
 Easy setup for generating beautiful images with Stable Cascade.
 
-### Added GUI 
+### GUI 
 1. Follow original installation instructions 
 2. Use run.bat for gradio interface 
 
