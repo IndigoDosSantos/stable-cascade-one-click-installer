@@ -2,6 +2,8 @@
 
 Easy setup for generating beautiful images with Stable Cascade.
 
+### Added GUI 
+
 ### Installation
 
 1. **Download**: Get the installer by clicking this link: [Download ZIP](https://github.com/EtienneDosSantos/stable-cascade-one-click-installer/archive/refs/heads/main.zip)
