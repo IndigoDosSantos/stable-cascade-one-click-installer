@@ -2,6 +2,10 @@
 
 Easy setup for generating beautiful images with Stable Cascade.
 
+### Updates
+- Added seed and steps control
+- Added Linux/OS X support (thank you @il-katta)
+
 ### Installation ( Windows )
 
 1. **Download**: Get the installer by clicking this link: [Download ZIP](https://github.com/EtienneDosSantos/stable-cascade-one-click-installer/archive/refs/heads/main.zip)
