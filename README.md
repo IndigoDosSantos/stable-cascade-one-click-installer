@@ -30,7 +30,7 @@ Easy setup for generating beautiful images with Stable Cascade.
 ### Requirements
 
 - This script requires Python to be installed on your system. Python is **not** included in the one-click installer. If you do not have Python installed, download and install it from the [official Python website](https://www.python.org/downloads/) before running the installer.
-- Visual Studio build tools for C++ desktop development from the [official Visual Studio website](https://visualstudio.microsoft.com/de/downloads/)
+- Visual Studio build tools for C++ desktop development from the [official Visual Studio website](https://visualstudio.microsoft.com/downloads/)
 - Hardware (only tested with 4060 Ti 16 GB VRAM): ![Screenshot of task manager during inference](https://raw.githubusercontent.com/EtienneDosSantos/stable-cascade-one-click-installer/main/hardware_requirements.jpg)
 
 ## Acknowledgments
