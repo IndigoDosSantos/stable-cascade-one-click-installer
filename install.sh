@@ -12,7 +12,7 @@ if [ ! -d "venv" ]; then
 fi
 
 # Install the custom diffusers version from GitHub
-./venv/bin/pip install git+https://github.com/kashif/diffusers.git@wuerstchen-v3
+./venv/bin/pip install git+https://github.com/EtienneDosSantos/diffusers.git@wuerstchen-v3
 
 # Install other requirements
 ./venv/bin/pip install -r requirements.txt
