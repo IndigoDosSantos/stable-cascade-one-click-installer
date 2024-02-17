@@ -3,8 +3,14 @@
 Easy setup for generating beautiful images with Stable Cascade.
 
 ### GUI 
-1. Follow original installation instructions below
-2. Use `run.bat` for gradio interface 
+1. Follow original installation instructions below (make sure to use a venv)
+2. Use `run.bat` for gradio interface
+
+### Troubleshooting
+4. If you have missing modules activate the venv and copy the content from pip-install.txt and paste it into you cmd. (Yes you can place the whole lot in one copy/paste)
+5. If you get a torch error run `pip install torch==2.0.1+cu118 -f https://download.pytorch.org/whl/torch_stable.html`
+6. If you see a protobuf error run `pip install protobuf==3.20.0`
+
 
 ### Installation
 
