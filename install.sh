@@ -20,4 +20,4 @@ python -m pip install --upgrade pip
 # Install other requirements
 ./venv/bin/pip install -r requirements.txt
 
-echo "Installation completed. Execute generate_images.sh script to start generating!"
+echo "Installation completed. Execute `run.sh` script to start generating!"
