@@ -7,9 +7,9 @@ Easy setup for generating beautiful images with Stable Cascade.
 2. Use `run.bat` for gradio interface
 
 ### Troubleshooting
-4. If you have missing modules activate the venv and copy the content from pip-install.txt and paste it into you cmd. (Yes you can place the whole lot in one copy/paste)
-5. If you get a torch error run `pip install torch==2.0.1+cu118 -f https://download.pytorch.org/whl/torch_stable.html`
-6. If you see a protobuf error run `pip install protobuf==3.20.0`
+- If you have missing modules open cdm in root folder and activate the venv `conda activate RPG`, copy the content from pip-install.txt and paste it into you cmd. (Yes you can place the whole lot in one copy/paste)
+- If you get a torch error run `pip install torch==2.0.1+cu118 -f https://download.pytorch.org/whl/torch_stable.html`
+- If you see a protobuf error run `pip install protobuf==3.20.0`
 
 
 ### Installation
