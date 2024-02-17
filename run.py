@@ -20,7 +20,7 @@ dtype = torch.bfloat16
 prior = StableCascadePriorPipeline.from_pretrained("stabilityai/stable-cascade-prior", torch_dtype=dtype).to(device)
 decoder = StableCascadeDecoderPipeline.from_pretrained("stabilityai/stable-cascade", torch_dtype=dtype).to(device)
 
-def generate_images(prompt, height, width, negative_prompt, guidance_scale, num_images_per_prompt):
+def generate_images(prompt, height, width, negative_prompt, guidance_scale, num_inference_steps, num_images_per_prompt, generator):
     output_directory = "./Output"
     os.makedirs(output_directory, exist_ok=True)
     output_images = []
@@ -32,14 +32,18 @@ def generate_images(prompt, height, width, negative_prompt, guidance_scale, num_
             width=int(width),
             negative_prompt=negative_prompt,
             guidance_scale=float(guidance_scale),
-            num_images_per_prompt=int(num_images_per_prompt),
+            num_inference_steps=int(calculated_steps_prior),
+            num_images_per_prompt=int(num_images_per_prompt)
+            generator=generator,
         )
         decoder_output = decoder(
             image_embeddings=prior_output.image_embeddings,
             prompt=prompt,
             negative_prompt=negative_prompt,
             guidance_scale=0.0,
+            num_inference_steps=calculated_steps_decoder,
             output_type="pil",
+            generator=generator,
         ).images
 
     for image in decoder_output:
