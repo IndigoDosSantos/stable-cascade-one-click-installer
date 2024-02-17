@@ -11,8 +11,8 @@
 
 --find-links https://download.pytorch.org/whl/torch_stable.html
 accelerate>=0.25.0
-torch==2.1.2+cu118
-torchvision==0.16.2+cu118
+torch>=2.1.2+cu118
+torchvision>=0.16.2+cu118
 transformers>=4.30.0
 numpy>=1.23.5
 kornia>=0.7.0
@@ -28,4 +28,3 @@ einops>=0.7.0
 onnx2torch>=1.5.13
 warmup-scheduler @ git+https://github.com/ildoonet/pytorch-gradual-warmup-lr.git
 torchtools @ git+https://github.com/pabloppp/pytorch-tools
-gradio
