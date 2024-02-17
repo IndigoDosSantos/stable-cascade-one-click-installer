@@ -15,7 +15,7 @@ Easy setup for generating beautiful images with Stable Cascade.
 
 3. **Install**: Double-click the `install.bat` file to automatically set up all dependencies.
 
-4. **Generate**: Double-click `generate_images.bat` to open the image generation script and get creative!
+4. **Generate**: Double-click `run.bat` to open the image generation script and get creative!
 
 ### Installation ( Linux/OS X)
 
@@ -25,7 +25,7 @@ Easy setup for generating beautiful images with Stable Cascade.
 
 3. **Install**: Execute the `install.sh` script to automatically set up all dependencies.
 
-4. **Generate**: Execute `generate_images.sh` script to start image generation
+4. **Generate**: Execute `run.sh` script to start image generation
 
 
 ### Requirements
