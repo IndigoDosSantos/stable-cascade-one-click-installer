@@ -5,7 +5,7 @@
 ### Troubleshooting
 - If you get a torch error run `pip install torch==2.0.1+cu118 -f https://download.pytorch.org/whl/torch_stable.html`
 - If you see a protobuf error run `pip install protobuf==3.20.0`
-- If you have lots of missing modules open cdm in root folder and activate the venv `conda activate RPG`, copy the content from pip-install.txt and paste it into you cmd. (Yes you can place the whole lot in one copy/paste)
+- If you have lots of missing modules as a last ditch effort you can open a cmd in the root folder and activate the venv `conda activate RPG`, copy the content from pip-install.txt and paste it into you cmd. (Yes you can place the whole lot in one copy/paste)
 
 ## Stable Cascade One-Click Installer
 
