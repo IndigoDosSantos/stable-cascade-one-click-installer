@@ -3,8 +3,9 @@
 Easy setup for generating beautiful images with Stable Cascade.
 
 ### Updates
-- Added seed and steps control
-- Added Linux/OS X support (thank you @il-katta)
+- Gradio GUI (thank you [@Acephalia](https://github.com/Acephalia))
+- Steps and seed control
+- Linux/OS X support (thank you [@il-katta](https://github.com/il-katta))
 
 ### Installation ( Windows )
 
