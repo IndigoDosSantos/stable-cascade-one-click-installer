@@ -21,5 +21,5 @@ pip install git+https://github.com/EtienneDosSantos/diffusers.git@wuerstchen-v3
 REM Install other requirements
 pip install -r requirements.txt
 
-echo Installation completed. Double-click generate_images.bat file next to start generating!
+echo Installation completed. Double-click `run.bat` file next to start generating!
 pause
