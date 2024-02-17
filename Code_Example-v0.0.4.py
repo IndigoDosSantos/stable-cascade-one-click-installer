@@ -13,7 +13,7 @@ import uuid
 # Set device and data type
 device = "cuda"
 dtype = torch.bfloat16
-                       
+
 # Load models
 prior = StableCascadePriorPipeline.from_pretrained("stabilityai/stable-cascade-prior", torch_dtype=dtype).to(device)
 decoder = StableCascadeDecoderPipeline.from_pretrained("stabilityai/stable-cascade", torch_dtype=dtype).to(device)
