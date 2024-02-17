@@ -27,8 +27,14 @@ def generate_images(prompt, height, width, negative_prompt, guidance_scale, num_
     calculated_steps_prior = int(num_inference_steps * 2 / 3)
     calculated_steps_decoder = int(num_inference_steps * 1 / 3)
     generator = torch.Generator("cuda")
+    # Logging
+    print(f"Generator device: {generator.device}")
 
     with torch.cuda.amp.autocast(dtype=dtype):
+        if generator == -1: # Check if user wants a random seed
+            generator = torch.Generator("cuda").manual_seed(torch.randint(0, 2**32 - 1, (1,)).item) # Deliver the random seed.
+        print(f"Generator (inside with block): {generator.device}")
+            
         prior_output = prior(
             prompt=prompt,
             height=int(height),
