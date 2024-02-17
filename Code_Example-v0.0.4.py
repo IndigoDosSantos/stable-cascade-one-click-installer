@@ -8,12 +8,12 @@
 import torch
 from diffusers import StableCascadeDecoderPipeline, StableCascadePriorPipeline
 import os
-import uuid  # Import the uuid library
+import uuid
 
 # Set device and data type
 device = "cuda"
 dtype = torch.bfloat16
-
+                       
 # Load models
 prior = StableCascadePriorPipeline.from_pretrained("stabilityai/stable-cascade-prior", torch_dtype=dtype).to(device)
 decoder = StableCascadeDecoderPipeline.from_pretrained("stabilityai/stable-cascade", torch_dtype=dtype).to(device)
@@ -32,7 +32,19 @@ while continue_generating.lower() in ["yes", "y"]:
     width = int(input("Enter the image width (e.g., 1024): "))
     negative_prompt = input("Enter your negative prompt, if any (or press enter to skip): ")
     guidance_scale = float(input("Enter the guidance scale (e.g., 4.0): "))
+    num_inference_steps = int(input("Enter the number of steps per image (e.g., 30): "))
+    calculated_steps_prior = int(num_inference_steps * 2 / 3)
+    calculated_steps_decoder = int(num_inference_steps * 1 / 3)
     num_images_per_prompt = int(input("Enter the number of images per prompt (e.g., 2): "))
+    seed_input = (input("Enter your seed, if any (or press enter for random seed): ").strip())
+    if seed_input: # Check if an input was provided
+        try:
+            seed = int(seed_input) # Conversion attempt within a try-except
+            generator = torch.Generator("cuda").manual_seed(seed)
+        except ValueError:
+            print("No seed entered. Using random seed.")
+    else:
+        generator = None # No seed, let the pipeline handle random generation
     
     with torch.cuda.amp.autocast(dtype=dtype):
         prior_output = prior(
@@ -41,14 +53,18 @@ while continue_generating.lower() in ["yes", "y"]:
             width=width,
             negative_prompt=negative_prompt,
             guidance_scale=guidance_scale,
+            num_inference_steps=calculated_steps_prior,
             num_images_per_prompt=num_images_per_prompt,
+            generator=generator,
         )
         decoder_output = decoder(
             image_embeddings=prior_output.image_embeddings,
             prompt=prompt,
             negative_prompt=negative_prompt,
             guidance_scale=0.0,
+            num_inference_steps=calculated_steps_decoder,
             output_type="pil",
+            generator=generator,
         ).images
 
     # Display or save images
