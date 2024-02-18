@@ -11,6 +11,7 @@ import torch
 from diffusers import StableCascadeDecoderPipeline, StableCascadePriorPipeline
 import os
 import uuid  # Import the uuid library
+import re
 
 # Initialize the device and dtype
 device = "cuda"
@@ -19,6 +20,14 @@ dtype = torch.bfloat16
 # Preload models to avoid reloading them on each function call
 prior = StableCascadePriorPipeline.from_pretrained("stabilityai/stable-cascade-prior", torch_dtype=dtype).to(device)
 decoder = StableCascadeDecoderPipeline.from_pretrained("stabilityai/stable-cascade", torch_dtype=dtype).to(device)
+
+# Define the clean_prompt function
+def clean_prompt(text):
+    word_pattern = r"\b(a|the)\b"
+    space_pattern = r"[ \u00A0\u2003]+"
+    text = re.sub(word_pattern, "", text, flags=re.IGNORECASE)
+    text = re.sub(space_pattern, " ", text)
+    return re.sub(r",\s*$", "", text)
 
 def generate_images(prompt, height, width, negative_prompt, guidance_scale, num_inference_steps, num_images_per_prompt, generator):
     output_directory = "./Output"
@@ -32,9 +41,13 @@ def generate_images(prompt, height, width, negative_prompt, guidance_scale, num_
             generator = torch.Generator(device).manual_seed(torch.seed())
         else:
             generator = torch.Generator(device).manual_seed(generator)
+
+        # Sanitize user input prompt before using it
+        cleaned_prompt = clean_prompt(prompt)
+        print("Your prompt:", cleaned_prompt)
             
         prior_output = prior(
-            prompt=prompt,
+            prompt=cleaned_prompt,
             height=int(height),
             width=int(width),
             negative_prompt=negative_prompt,
@@ -45,7 +58,7 @@ def generate_images(prompt, height, width, negative_prompt, guidance_scale, num_
         )
         decoder_output = decoder(
             image_embeddings=prior_output.image_embeddings,
-            prompt=prompt,
+            prompt=cleaned_prompt,
             negative_prompt=negative_prompt,
             guidance_scale=0.0,
             num_inference_steps=calculated_steps_decoder,
