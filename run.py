@@ -23,11 +23,35 @@ decoder = StableCascadeDecoderPipeline.from_pretrained("stabilityai/stable-casca
 
 # Define the clean_prompt function
 def clean_prompt(text):
+    """
+    Cleans the prompt by removing 'a', 'the', excess spaces, and multiple commas.
+
+    Args:
+    text: The text to be cleaned.
+
+    Returns:
+    The cleaned text.
+    """
+    # Remove 'a' and 'the' (case-insensitive)
     word_pattern = r"\b(a|the)\b"
-    space_pattern = r"[ \u00A0\u2003]+"
     text = re.sub(word_pattern, "", text, flags=re.IGNORECASE)
+
+    # Replace excess spaces with single spaces
+    space_pattern = r"[ \u00A0\u2003]+"  
     text = re.sub(space_pattern, " ", text)
-    return re.sub(r",\s*$", "", text)
+
+    # Replace multiple commas (with or without spaces) with a single comma
+    comma_pattern = r",\s*,+"
+    text = re.sub(comma_pattern, ", ", text)
+
+    # Remove any trailing comma
+    text = text.strip(",")
+
+    # Replace excess spaces with single spaces
+    space_pattern = r"[ \u00A0\u2003]+"  
+    text = re.sub(space_pattern, " ", text)
+
+    return text
 
 def generate_images(prompt, height, width, negative_prompt, guidance_scale, num_inference_steps, num_images_per_prompt, generator):
     output_directory = "./Output"
