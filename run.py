@@ -117,11 +117,17 @@ affective_adverb = {
     "adoringly", "aggressively", "alarmedly", "amusedly", "angrily", "anxiously", "apathically", "approvingly", "arrogantly", "awkwardly", "bitterly", "blissfully", "boredly", "calmly", "compassionately", "confusedly", "contemptuously", "contently", "curiously", "cynically", "delightfully", "determinedly", "disapprovingly", "disbelievingly", "disgustedly", "dreamily", "eagerly", "enviously", "fearfully", "flirtingly", "fondly", "frustratedly", "gleefully", "gloomily", "gratefully", "happily", "hatefully", "hesitantly", "hopelessly", "hungrily", "inquisitively", "intensely", "joyfully", "longingly", "lovingly", "miserably", "mockingly", "nervously", "painfully", "patiently", "peacefully", "patiently", "peacefully", "playfully", "proudly", "questioningly", "regretfully", "sadly", "sarcastically", "skeptically", "worriedly", "yearningly"
 }
 
-def handle_dropdown_change(selected_option):
+def handle_dropdown_change(*args):
+    # args will be a tuple containing all the arguments passed to the function
     # This function can handle changes in dropdown selections
     # For demonstration purposes, it doesn't do much, but you can extend it
-    print(f"Dropdown selection changed: {selected_option}")
-    return selected_option
+    # selected_option = {
+    #     style_dropdown, technique_dropdown, subject_dropdown, action_dropdown, affective_adverb_dropdown
+    # }
+    # Filter out None or empty strings and ensure each argument is a string
+    selected_options = ' '.join([str(arg) for arg in args if arg])
+    print(f"Dropdown selection changed: {selected_options}")
+    return selected_options
 
 with gr.Blocks() as demo:
     with gr.Column():
@@ -150,11 +156,13 @@ with gr.Blocks() as demo:
         subject_dropdown = gr.Dropdown(subject, label="Select a subject")
         action_dropdown = gr.Dropdown(action, label="Select an action")
         affective_adverb_dropdown = gr.Dropdown(affective_adverb, label="Select an affective verb")
-        # Removed the commas at the end of each line above
 
         # Assuming you want to do something with the dropdowns, like displaying the selected value
         output_text = gr.Textbox(label="Selected Option")
-        style_dropdown.change(fn=handle_dropdown_change, inputs=[style_dropdown], outputs=[output_text])
-        # Corrected the structure here, too
+        style_dropdown.change(fn=handle_dropdown_change, inputs=[style_dropdown, technique_dropdown, subject_dropdown, action_dropdown, affective_adverb_dropdown], outputs=[output_text])
+        technique_dropdown.change(fn=handle_dropdown_change, inputs=[style_dropdown, technique_dropdown, subject_dropdown, action_dropdown, affective_adverb_dropdown], outputs=[output_text])
+        subject_dropdown.change(fn=handle_dropdown_change, inputs=[style_dropdown, technique_dropdown, subject_dropdown, action_dropdown, affective_adverb_dropdown], outputs=[output_text])
+        action_dropdown.change(fn=handle_dropdown_change, inputs=[style_dropdown, technique_dropdown, subject_dropdown, action_dropdown, affective_adverb_dropdown], outputs=[output_text])
+        affective_adverb_dropdown.change(fn=handle_dropdown_change, inputs=[style_dropdown, technique_dropdown, subject_dropdown, action_dropdown, affective_adverb_dropdown], outputs=[output_text])        
 
 demo.launch(inbrowser=True)
