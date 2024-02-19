@@ -21,7 +21,7 @@ dtype = torch.bfloat16
 prior = StableCascadePriorPipeline.from_pretrained("stabilityai/stable-cascade-prior", torch_dtype=dtype).to(device)
 decoder = StableCascadeDecoderPipeline.from_pretrained("stabilityai/stable-cascade", torch_dtype=dtype).to(device)
 
-def generate_images(prompt, height, width, negative_prompt, guidance_scale, num_inference_steps, num_images_per_prompt, generator, style_choices, copy_button):
+def generate_images(prompt, height, width, negative_prompt, guidance_scale, num_inference_steps, num_images_per_prompt, generator):
     output_directory = "./Output"
     os.makedirs(output_directory, exist_ok=True)
     output_images = []
@@ -42,19 +42,16 @@ def generate_images(prompt, height, width, negative_prompt, guidance_scale, num_
         # Remove 'a' and 'the' (case-insensitive)
         word_pattern = r"\b(a|the)\b"
         prompt = re.sub(word_pattern, "", prompt, flags=re.IGNORECASE)
-        print("Prompt first step cleaning:", prompt)
 
         prompt = prompt.replace('\u00A0', ' ')  # Replace non-breaking spaces first
 
         # Replace excess spaces with single spaces
         space_pattern = r" +"
         prompt = re.sub(space_pattern, " ", prompt)
-        print("Prompt second step cleaning:", prompt)
 
         # Handle commas: Replace multiple commas possibly separated by spaces with a single comma
         comma_pattern = r"(, )+"
         prompt = re.sub(comma_pattern, ",", prompt)
-        print("Prompt third cleaning:", prompt)
 
         # Remove any spaces before and after commas
         prompt = re.sub(r" ,", ",", prompt)
@@ -62,7 +59,6 @@ def generate_images(prompt, height, width, negative_prompt, guidance_scale, num_
 
         # Remove any trailing or leading comma and spaces
         prompt = prompt.strip(", ")
-        print("Prompt fourth cleaning:", prompt)
 
         # Ensure there is exactly one space after each comma
         prompt = re.sub(r",", ", ", prompt)
@@ -104,29 +100,61 @@ def generate_images(prompt, height, width, negative_prompt, guidance_scale, num_
     
     return output_images
 
+# Styles list from https://latenightportrait.com/60-art-styles-explained-with-examples/#ib-toc-anchor-46
 style_choices = {
-    "Impressionism", "Surrealism", "Fauvism"
+    "Abstract Expressionism", "Academic Art", "Ancient Art", "Anti-Art", "Art Deco", "Art Nouveau", "Avant-garde", "Baroque", "Bauhaus", "Classicism", "CoBrA", "Color Field Painting", "Conceptual Art", "Constructivism", "Contemporary Art", "Cubism", "Dada / Dadism", "De Stijl", "Digital Art", "Dutch Golden Age", "Expressionism", "Fauvism", "Figurative", "Fluxus", "Folk Art", "Futurism", "Geometric", "Gothic Art", "Zero Group", "Harlem Renaisssance", "Hyperrealism", "Impressionism", "Installation Art", "Japonism", "Kinetic Art", "Land Art", "Magical Realism", "Minimalism", "Modern Art", "Naïve Art", "Nature Art", "Neoclassicism", "Neo-Impressionism", "Neo-Surrealism", "Neon Art", "Op Art", "Painterly", "Performance Art", "Photorealism", "Pointilism", "Pop Art", "Portraiture", "Post-Impressionism", "Postmodern Art", "Precisionism", "Primitivism", "Realism", "Renaissance Art", "Rococo", "Romanticism", "Spiritual Art", "Still Life", "Street Art", "Stuckism", "Suprematism", "Surrealism", "Symbolism", "Typography", "Ukiyo-e", "Urban"
 }
-copy_button = gr.Button("Copy") # Create the copy button
-dropdown = gr.Dropdown(style_choices, label="Select a style")
+technique = {
+    "collage", "composition", "drawing", "etching", "fresco", "illustration", "mural", "painting", "photo", "portrait", "print", "representation", "sculpture", "sketch", "watercolor", "woodcut"
+}
+subject = {
+    "animal", "architecture", "beach", "city", "cloud", "desert", "flower", "forest", "fruit", "furniture", "house", "insect", "island", "lake", "landscape", "leaf", "man", "moon", "mountain", "nonbinary", "object", "ocean", "person", "plant", "river", "rock", "star", "tree", "woman"
+}
+action = {
+    "balancing", "blushing", "climbing", "concealing", "contemplating", "dancing", "daydreaming", "discovering", "embracing", "emerging", "entangling", "exploring", "floating", "gazing", "gliding", "hiding", "hovering", "laughing", "leaping", "listening", "meditating", "pondering", "reaching", "reflecting", "resisting", "searching", "transforming", "whispering", "wishing", "yearning"
+}
+affective_adverb = {
+    "adoringly", "aggressively", "alarmedly", "amusedly", "angrily", "anxiously", "apathically", "approvingly", "arrogantly", "awkwardly", "bitterly", "blissfully", "boredly", "calmly", "compassionately", "confusedly", "contemptuously", "contently", "curiously", "cynically", "delightfully", "determinedly", "disapprovingly", "disbelievingly", "disgustedly", "dreamily", "eagerly", "enviously", "fearfully", "flirtingly", "fondly", "frustratedly", "gleefully", "gloomily", "gratefully", "happily", "hatefully", "hesitantly", "hopelessly", "hungrily", "inquisitively", "intensely", "joyfully", "longingly", "lovingly", "miserably", "mockingly", "nervously", "painfully", "patiently", "peacefully", "patiently", "peacefully", "playfully", "proudly", "questioningly", "regretfully", "sadly", "sarcastically", "skeptically", "worriedly", "yearningly"
+}
 
-iface = gr.Interface(
-    fn=generate_images,
-    inputs=[
-        gr.Textbox(label="Prompt"),
-        gr.Slider(minimum=512, maximum=2048, step=1, value=1024, label="Image Height"),
-        gr.Slider(minimum=512, maximum=2048, step=1, value=1024, label="Image Width"),
-        gr.Textbox(label="Negative Prompt", value=""),
-        gr.Slider(minimum=1, maximum=20, step=0.5, value=4.0, label="Guidance Scale"), # CFG 4.0 is recommended for Stable Cascade
-        gr.Slider(minimum=1, maximum=150, step=1, value=30, label="Steps"), # Is `step=1` necessary?
-        gr.Number(label="Number of Images per Prompt", value=2),
-        gr.Number(label="Seed", value=-1), # Need to add `value=-1` means random seed.
-        gr.Dropdown(style_choices, label="Select a style"),
-        gr.Button("Copy")
-    ],
-    outputs=gr.Gallery(label="Generated Images"),
-    title="Image Generator",
-    description="Generate images based on your prompts!"
-)
+def handle_dropdown_change(selected_option):
+    # This function can handle changes in dropdown selections
+    # For demonstration purposes, it doesn't do much, but you can extend it
+    print(f"Dropdown selection changed: {selected_option}")
+    return selected_option
 
-iface.launch(inbrowser=True)
+with gr.Blocks() as demo:
+    with gr.Column():
+        prompt = gr.Textbox(label="Prompt")
+        height = gr.Slider(minimum=512, maximum=2048, step=1, value=1024, label="Image Height")
+        width = gr.Slider(minimum=512, maximum=2048, step=1, value=1024, label="Image Width")
+        negative_prompt = gr.Textbox(label="Negative Prompt", value="")
+        guidance_scale = gr.Slider(minimum=1, maximum=20, step=0.5, value=4.0, label="Guidance Scale")
+        num_inference_steps = gr.Slider(minimum=1, maximum=150, step=1, value=30, label="Steps")
+        num_images_per_prompt = gr.Number(label="Number of Images per Prompt", value=2)
+        seed = gr.Number(label="Seed", value=-1)  # Removed the comma here
+
+        generate_button = gr.Button("Generate Images")
+        gallery = gr.Gallery(label="Generated Images")
+
+        generate_button.click(
+            fn=generate_images,
+            inputs=[prompt, height, width, negative_prompt, guidance_scale, num_inference_steps, num_images_per_prompt, seed],
+            outputs=[gallery]
+        )
+
+    with gr.Column():
+        # Prompt Configurator dropdowns
+        style_dropdown = gr.Dropdown(style_choices, label="Select a style")
+        technique_dropdown = gr.Dropdown(technique, label="Select a technique")
+        subject_dropdown = gr.Dropdown(subject, label="Select a subject")
+        action_dropdown = gr.Dropdown(action, label="Select an action")
+        affective_adverb_dropdown = gr.Dropdown(affective_adverb, label="Select an affective verb")
+        # Removed the commas at the end of each line above
+
+        # Assuming you want to do something with the dropdowns, like displaying the selected value
+        output_text = gr.Textbox(label="Selected Option")
+        style_dropdown.change(fn=handle_dropdown_change, inputs=[style_dropdown], outputs=[output_text])
+        # Corrected the structure here, too
+
+demo.launch(inbrowser=True)
