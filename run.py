@@ -21,7 +21,7 @@ dtype = torch.bfloat16
 prior = StableCascadePriorPipeline.from_pretrained("stabilityai/stable-cascade-prior", torch_dtype=dtype).to(device)
 decoder = StableCascadeDecoderPipeline.from_pretrained("stabilityai/stable-cascade", torch_dtype=dtype).to(device)
 
-def generate_images(prompt, height, width, negative_prompt, guidance_scale, num_inference_steps, num_images_per_prompt, generator):
+def generate_images(prompt, height, width, negative_prompt, guidance_scale, num_inference_steps, num_images_per_prompt, generator, style_choices, copy_button):
     output_directory = "./Output"
     os.makedirs(output_directory, exist_ok=True)
     output_images = []
@@ -104,6 +104,12 @@ def generate_images(prompt, height, width, negative_prompt, guidance_scale, num_
     
     return output_images
 
+style_choices = {
+    "Impressionism", "Surrealism", "Fauvism"
+}
+copy_button = gr.Button("Copy") # Create the copy button
+dropdown = gr.Dropdown(style_choices, label="Select a style")
+
 iface = gr.Interface(
     fn=generate_images,
     inputs=[
@@ -114,7 +120,9 @@ iface = gr.Interface(
         gr.Slider(minimum=1, maximum=20, step=0.5, value=4.0, label="Guidance Scale"), # CFG 4.0 is recommended for Stable Cascade
         gr.Slider(minimum=1, maximum=150, step=1, value=30, label="Steps"), # Is `step=1` necessary?
         gr.Number(label="Number of Images per Prompt", value=2),
-        gr.Number(label="Seed", value=-1) # Need to add `value=-1` means random seed.
+        gr.Number(label="Seed", value=-1), # Need to add `value=-1` means random seed.
+        gr.Dropdown(style_choices, label="Select a style"),
+        gr.Button("Copy")
     ],
     outputs=gr.Gallery(label="Generated Images"),
     title="Image Generator",
