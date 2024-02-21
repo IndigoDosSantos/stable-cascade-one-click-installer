@@ -1,14 +1,11 @@
-### GUI 
-1. Follow original installation instructions below (make sure to use a venv)
-2. Use `run.bat` for gradio interface
-
 ## Stable Cascade One-Click Installer
 
 Easy setup for generating beautiful images with Stable Cascade.
 
 ### Updates
-- Added seed and steps control
-- Added Linux/OS X support (thank you @il-katta)
+- Gradio GUI (thank you [@Acephalia](https://github.com/Acephalia))
+- Steps and seed control
+- Linux/OS X support (thank you [@il-katta](https://github.com/il-katta))
 
 ### Installation ( Windows )
 
@@ -18,7 +15,7 @@ Easy setup for generating beautiful images with Stable Cascade.
 
 3. **Install**: Double-click the `install.bat` file to automatically set up all dependencies.
 
-4. **Generate**: Double-click `generate_images.bat` to open the image generation script and get creative!
+4. **Generate**: Double-click `run.bat` to open the image generation script and get creative!
 
 ### Installation ( Linux/OS X)
 
@@ -28,7 +25,7 @@ Easy setup for generating beautiful images with Stable Cascade.
 
 3. **Install**: Execute the `install.sh` script to automatically set up all dependencies.
 
-4. **Generate**: Execute `generate_images.sh` script to start image generation
+4. **Generate**: Execute `run.sh` script to start image generation
 
 
 ### Requirements
