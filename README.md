@@ -1,3 +1,5 @@
+![](https://github.com/EtienneDosSantos/stable-cascade-one-click-installer/blob/dev/stable-cascade-one-click-installer_background.png)
+
 ## Stable Cascade One-Click Installer
 
 Easy setup for generating beautiful images with Stable Cascade.
