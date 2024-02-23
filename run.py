@@ -170,10 +170,6 @@ post_processing = {
     "black and white conversion", "brightness adjustment", "color correction", "color grading", "contrast adjustment", "depth of field manipulation", "digital painting techniques", "dodging", "burning", "exposure adjustment", "film grain simulation", "filter effects", "gradient overlay", "HDR creation", "healing brush", "high-pass sharpening", "lens correction", "levels adjustment", "noise reduction", "object removal", "perspective correction", "retouching", "selective color adjustments", "sharpening", "skin smoothing", "special effects", "light leaks", "split toning", "vignette addition", "white balance adjustment"
 }
 
-def handle_dropdown_change(*args):
-    selected_options = ' '.join([str(arg) for arg in args if arg])
-    return selected_options
-
 with gr.Blocks(theme=gr.themes.Soft()) as demo: # Change to your desired theme
     gr.HTML("""
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -201,36 +197,37 @@ with gr.Blocks(theme=gr.themes.Soft()) as demo: # Change to your desired theme
     with gr.Row(): # For three parameter columns
         with gr.Column():
             # components in left column
-            gr.HTML("""<div class="my-slider-container">""")
             width = gr.Slider(minimum=512, maximum=2048, step=1, value=1024, label="Image Width")
             height = gr.Slider(minimum=512, maximum=2048, step=1, value=1024, label="Image Height")
-            gr.HTML("""</div>""")
         with gr.Column():
             # components in central column
-            gr.HTML("""<div class="my-slider-container">""")
             num_inference_steps = gr.Slider(minimum=1, maximum=150, step=1, value=30, label="Steps")
             num_images_per_prompt = gr.Number(label="Number of Images per Prompt", value=2)
-            gr.HTML("""</div>""")
         with gr.Column():
             # components in right column
-            gr.HTML("""<div class="my-slider-container">""")
             guidance_scale = gr.Slider(minimum=1, maximum=20, step=0.5, value=4.0, label="Guidance Scale")
             seed = gr.Number(label="Seed", value=-1)
-            gr.HTML("""</div>""")
 
         generate_button.click(
             fn=generate_images,
             inputs=[prompt, height, width, negative_prompt, guidance_scale, num_inference_steps, num_images_per_prompt, seed],
             outputs=[gallery]
         )
-checkbox = gr.Checkbox(label="Show Prompt Configurator") # Checkbox to control visibility
-group = gr.Group() # Group to hold the configurator elements
 
-def toggle_visibility(checked):
-    group.visible = checked
+    def handle_dropdown_change(*args):
+        selected_options = ' '.join([str(arg) for arg in args if arg])
+        return selected_options
 
-with group:
-    with gr.Blocks():
+    # Define the toggle visibility function
+    def toggle_visibility(checked):
+        configurator_group.visible = checked
+        return [checked] * 20
+
+    # Create the main Blocks container
+    config_checkbox = gr.Checkbox(label="Show Prompt Configurator", value=True) # Checkbox to control visibility
+    configurator_group = gr.Group(visible=True) # Group to hold the configurator elements. Initially hidden.
+        
+    with configurator_group:
         with gr.Row():
             # Prompt Configurator dropdowns
             output_text = gr.Textbox("Your configured prompt.", label="Selected Option")
@@ -262,103 +259,108 @@ with group:
         with gr.Row():
             post_processing_dropdown = gr.Dropdown(post_processing, label="Post-processing")
 
-        checkbox.change(toggle_visibility, checkbox, group)
+                # Assuming you want to do something with the dropdowns, like displaying the selected value
+            style_dropdown.change(
+                fn=handle_dropdown_change,
+                inputs=[style_dropdown, technique_dropdown, subject_dropdown, action_dropdown, affective_adverb_dropdown, physique_dropdown, hairstyle_dropdown, facial_features_dropdown, top_dropdown, bottom_dropdown, background_dropdown, lighting_dropdown, color_dropdown, texture_dropdown, camera_dropdown,  framing_dropdown, mood_dropdown, story_dropdown, post_processing_dropdown],
+                outputs=[output_text]
+            )
+            technique_dropdown.change(
+                fn=handle_dropdown_change,
+                inputs=[style_dropdown, technique_dropdown, subject_dropdown, action_dropdown, affective_adverb_dropdown, physique_dropdown, hairstyle_dropdown, facial_features_dropdown, top_dropdown, bottom_dropdown, background_dropdown, lighting_dropdown, color_dropdown, texture_dropdown, camera_dropdown,  framing_dropdown, mood_dropdown, story_dropdown, post_processing_dropdown],
+                outputs=[output_text]
+            )
+            subject_dropdown.change(
+                fn=handle_dropdown_change,
+                inputs=[style_dropdown, technique_dropdown, subject_dropdown, action_dropdown, affective_adverb_dropdown, physique_dropdown, hairstyle_dropdown, facial_features_dropdown, top_dropdown, bottom_dropdown, background_dropdown, lighting_dropdown, color_dropdown, texture_dropdown, camera_dropdown,  framing_dropdown, mood_dropdown, story_dropdown, post_processing_dropdown],
+                outputs=[output_text]
+            )
+            action_dropdown.change(
+                fn=handle_dropdown_change,
+                inputs=[style_dropdown, technique_dropdown,  subject_dropdown, action_dropdown, affective_adverb_dropdown, physique_dropdown, hairstyle_dropdown, facial_features_dropdown, top_dropdown, bottom_dropdown, background_dropdown, lighting_dropdown, color_dropdown, texture_dropdown, camera_dropdown,  framing_dropdown, mood_dropdown, story_dropdown, post_processing_dropdown],
+                outputs=[output_text]
+            )
+            affective_adverb_dropdown.change(
+                fn=handle_dropdown_change,
+                inputs=[style_dropdown, technique_dropdown, subject_dropdown, action_dropdown, affective_adverb_dropdown, physique_dropdown, hairstyle_dropdown, facial_features_dropdown, top_dropdown, bottom_dropdown, background_dropdown, lighting_dropdown, color_dropdown, texture_dropdown, camera_dropdown,  framing_dropdown, mood_dropdown, story_dropdown, post_processing_dropdown],
+                outputs=[output_text]
+            )
+            physique_dropdown.change(
+                fn=handle_dropdown_change,
+                inputs=[style_dropdown, technique_dropdown, subject_dropdown, action_dropdown, affective_adverb_dropdown, physique_dropdown, hairstyle_dropdown, facial_features_dropdown, top_dropdown, bottom_dropdown, background_dropdown, lighting_dropdown, color_dropdown, texture_dropdown, camera_dropdown,  framing_dropdown, mood_dropdown, story_dropdown, post_processing_dropdown],
+                outputs=[output_text]
+            )
+            hairstyle_dropdown.change(
+                fn=handle_dropdown_change,
+                inputs=[style_dropdown, technique_dropdown, subject_dropdown, action_dropdown, affective_adverb_dropdown, physique_dropdown, hairstyle_dropdown, facial_features_dropdown, top_dropdown, bottom_dropdown, background_dropdown, lighting_dropdown, color_dropdown, texture_dropdown, camera_dropdown,  framing_dropdown, mood_dropdown, story_dropdown, post_processing_dropdown],
+                outputs=[output_text]
+            )
+            facial_features_dropdown.change(
+                fn=handle_dropdown_change,
+                inputs=[style_dropdown, technique_dropdown, subject_dropdown, action_dropdown, affective_adverb_dropdown, physique_dropdown, hairstyle_dropdown, facial_features_dropdown, top_dropdown, bottom_dropdown, background_dropdown, lighting_dropdown, color_dropdown, texture_dropdown, camera_dropdown,  framing_dropdown, mood_dropdown, story_dropdown, post_processing_dropdown],
+                outputs=[output_text]
+            )
+            top_dropdown.change(
+                fn=handle_dropdown_change,
+                inputs=[style_dropdown, technique_dropdown, subject_dropdown, action_dropdown, affective_adverb_dropdown, physique_dropdown, hairstyle_dropdown, facial_features_dropdown, top_dropdown, bottom_dropdown, background_dropdown, lighting_dropdown, color_dropdown, texture_dropdown, camera_dropdown,  framing_dropdown, mood_dropdown, story_dropdown, post_processing_dropdown],
+                outputs=[output_text]
+            )
+            bottom_dropdown.change(
+                fn=handle_dropdown_change,
+                inputs=[style_dropdown, technique_dropdown, subject_dropdown, action_dropdown, affective_adverb_dropdown, physique_dropdown, hairstyle_dropdown, facial_features_dropdown, top_dropdown, bottom_dropdown, background_dropdown, lighting_dropdown, color_dropdown, texture_dropdown, camera_dropdown,  framing_dropdown, mood_dropdown, story_dropdown, post_processing_dropdown],
+                outputs=[output_text]
+            )
+            background_dropdown.change(
+                fn=handle_dropdown_change,
+                inputs=[style_dropdown, technique_dropdown, subject_dropdown, action_dropdown, affective_adverb_dropdown, physique_dropdown, hairstyle_dropdown, facial_features_dropdown, top_dropdown, bottom_dropdown, background_dropdown, lighting_dropdown, color_dropdown, texture_dropdown, camera_dropdown,  framing_dropdown, mood_dropdown, story_dropdown, post_processing_dropdown],
+                outputs=[output_text]
+            )
+            lighting_dropdown.change(
+                fn=handle_dropdown_change,
+                inputs=[style_dropdown, technique_dropdown, subject_dropdown, action_dropdown, affective_adverb_dropdown, physique_dropdown, hairstyle_dropdown, facial_features_dropdown, top_dropdown, bottom_dropdown, background_dropdown, lighting_dropdown, color_dropdown, texture_dropdown, camera_dropdown,  framing_dropdown, mood_dropdown, story_dropdown, post_processing_dropdown],
+                outputs=[output_text]
+            )
+            color_dropdown.change(
+                fn=handle_dropdown_change,
+                inputs=[style_dropdown, technique_dropdown, subject_dropdown, action_dropdown, affective_adverb_dropdown, physique_dropdown, hairstyle_dropdown, facial_features_dropdown, top_dropdown, bottom_dropdown, background_dropdown, lighting_dropdown, color_dropdown, texture_dropdown, camera_dropdown,  framing_dropdown, mood_dropdown, story_dropdown, post_processing_dropdown],
+                outputs=[output_text]
+            )
+            texture_dropdown.change(
+                fn=handle_dropdown_change,
+                inputs=[style_dropdown, technique_dropdown, subject_dropdown, action_dropdown, affective_adverb_dropdown, physique_dropdown, hairstyle_dropdown, facial_features_dropdown, top_dropdown, bottom_dropdown, background_dropdown, lighting_dropdown, color_dropdown, texture_dropdown, camera_dropdown,  framing_dropdown, mood_dropdown, story_dropdown, post_processing_dropdown],
+                outputs=[output_text]
+            )
+            camera_dropdown.change(
+                fn=handle_dropdown_change,
+                inputs=[style_dropdown, technique_dropdown, subject_dropdown, action_dropdown, affective_adverb_dropdown, physique_dropdown, hairstyle_dropdown, facial_features_dropdown, top_dropdown, bottom_dropdown, background_dropdown, lighting_dropdown, color_dropdown, texture_dropdown, camera_dropdown,  framing_dropdown, mood_dropdown, story_dropdown, post_processing_dropdown],
+                outputs=[output_text]
+            )
+            framing_dropdown.change(
+                fn=handle_dropdown_change,
+                inputs=[style_dropdown, technique_dropdown, subject_dropdown, action_dropdown, affective_adverb_dropdown, physique_dropdown, hairstyle_dropdown, facial_features_dropdown, top_dropdown, bottom_dropdown, background_dropdown, lighting_dropdown, color_dropdown, texture_dropdown, camera_dropdown,  framing_dropdown, mood_dropdown, story_dropdown, post_processing_dropdown],
+                outputs=[output_text]
+            )
+            mood_dropdown.change(
+                fn=handle_dropdown_change,
+                inputs=[style_dropdown, technique_dropdown, subject_dropdown, action_dropdown, affective_adverb_dropdown, physique_dropdown, hairstyle_dropdown, facial_features_dropdown, top_dropdown, bottom_dropdown, background_dropdown, lighting_dropdown, color_dropdown, texture_dropdown, camera_dropdown,  framing_dropdown, mood_dropdown, story_dropdown, post_processing_dropdown],
+                outputs=[output_text]
+            )
+            story_dropdown.change(
+                fn=handle_dropdown_change,
+                inputs=[style_dropdown, technique_dropdown, subject_dropdown, action_dropdown, affective_adverb_dropdown, physique_dropdown, hairstyle_dropdown, facial_features_dropdown, top_dropdown, bottom_dropdown, background_dropdown, lighting_dropdown, color_dropdown, texture_dropdown, camera_dropdown,  framing_dropdown, mood_dropdown, story_dropdown, post_processing_dropdown],
+                outputs=[output_text]
+            )
+            post_processing_dropdown.change(
+                fn=handle_dropdown_change,
+                inputs=[style_dropdown, technique_dropdown, subject_dropdown, action_dropdown, affective_adverb_dropdown, physique_dropdown, hairstyle_dropdown, facial_features_dropdown, top_dropdown, bottom_dropdown, background_dropdown, lighting_dropdown, color_dropdown, texture_dropdown, camera_dropdown,  framing_dropdown, mood_dropdown, story_dropdown, post_processing_dropdown],
+                outputs=[output_text]
+            )
 
-        # Assuming you want to do something with the dropdowns, like displaying the selected value
-        style_dropdown.change(
-            fn=handle_dropdown_change,
-            inputs=[style_dropdown, technique_dropdown, subject_dropdown, action_dropdown, affective_adverb_dropdown, physique_dropdown, hairstyle_dropdown, facial_features_dropdown, top_dropdown, bottom_dropdown, background_dropdown, lighting_dropdown, color_dropdown, texture_dropdown, camera_dropdown,  framing_dropdown, mood_dropdown, story_dropdown, post_processing_dropdown],
-            outputs=[output_text]
-        )
-        technique_dropdown.change(
-            fn=handle_dropdown_change,
-            inputs=[style_dropdown, technique_dropdown, subject_dropdown, action_dropdown, affective_adverb_dropdown, physique_dropdown, hairstyle_dropdown, facial_features_dropdown, top_dropdown, bottom_dropdown, background_dropdown, lighting_dropdown, color_dropdown, texture_dropdown, camera_dropdown,  framing_dropdown, mood_dropdown, story_dropdown, post_processing_dropdown],
-            outputs=[output_text]
-        )
-        subject_dropdown.change(
-            fn=handle_dropdown_change,
-            inputs=[style_dropdown, technique_dropdown, subject_dropdown, action_dropdown, affective_adverb_dropdown, physique_dropdown, hairstyle_dropdown, facial_features_dropdown, top_dropdown, bottom_dropdown, background_dropdown, lighting_dropdown, color_dropdown, texture_dropdown, camera_dropdown,  framing_dropdown, mood_dropdown, story_dropdown, post_processing_dropdown],
-            outputs=[output_text]
-        )
-        action_dropdown.change(
-            fn=handle_dropdown_change,
-            inputs=[style_dropdown, technique_dropdown,  subject_dropdown, action_dropdown, affective_adverb_dropdown, physique_dropdown, hairstyle_dropdown, facial_features_dropdown, top_dropdown, bottom_dropdown, background_dropdown, lighting_dropdown, color_dropdown, texture_dropdown, camera_dropdown,  framing_dropdown, mood_dropdown, story_dropdown, post_processing_dropdown],
-            outputs=[output_text]
-        )
-        affective_adverb_dropdown.change(
-            fn=handle_dropdown_change,
-            inputs=[style_dropdown, technique_dropdown, subject_dropdown, action_dropdown, affective_adverb_dropdown, physique_dropdown, hairstyle_dropdown, facial_features_dropdown, top_dropdown, bottom_dropdown, background_dropdown, lighting_dropdown, color_dropdown, texture_dropdown, camera_dropdown,  framing_dropdown, mood_dropdown, story_dropdown, post_processing_dropdown],
-            outputs=[output_text]
-        )
-        physique_dropdown.change(
-            fn=handle_dropdown_change,
-            inputs=[style_dropdown, technique_dropdown, subject_dropdown, action_dropdown, affective_adverb_dropdown, physique_dropdown, hairstyle_dropdown, facial_features_dropdown, top_dropdown, bottom_dropdown, background_dropdown, lighting_dropdown, color_dropdown, texture_dropdown, camera_dropdown,  framing_dropdown, mood_dropdown, story_dropdown, post_processing_dropdown],
-            outputs=[output_text]
-        )
-        hairstyle_dropdown.change(
-            fn=handle_dropdown_change,
-            inputs=[style_dropdown, technique_dropdown, subject_dropdown, action_dropdown, affective_adverb_dropdown, physique_dropdown, hairstyle_dropdown, facial_features_dropdown, top_dropdown, bottom_dropdown, background_dropdown, lighting_dropdown, color_dropdown, texture_dropdown, camera_dropdown,  framing_dropdown, mood_dropdown, story_dropdown, post_processing_dropdown],
-            outputs=[output_text]
-        )
-        facial_features_dropdown.change(
-            fn=handle_dropdown_change,
-            inputs=[style_dropdown, technique_dropdown, subject_dropdown, action_dropdown, affective_adverb_dropdown, physique_dropdown, hairstyle_dropdown, facial_features_dropdown, top_dropdown, bottom_dropdown, background_dropdown, lighting_dropdown, color_dropdown, texture_dropdown, camera_dropdown,  framing_dropdown, mood_dropdown, story_dropdown, post_processing_dropdown],
-            outputs=[output_text]
-        )
-        top_dropdown.change(
-            fn=handle_dropdown_change,
-            inputs=[style_dropdown, technique_dropdown, subject_dropdown, action_dropdown, affective_adverb_dropdown, physique_dropdown, hairstyle_dropdown, facial_features_dropdown, top_dropdown, bottom_dropdown, background_dropdown, lighting_dropdown, color_dropdown, texture_dropdown, camera_dropdown,  framing_dropdown, mood_dropdown, story_dropdown, post_processing_dropdown],
-            outputs=[output_text]
-        )
-        bottom_dropdown.change(
-            fn=handle_dropdown_change,
-            inputs=[style_dropdown, technique_dropdown, subject_dropdown, action_dropdown, affective_adverb_dropdown, physique_dropdown, hairstyle_dropdown, facial_features_dropdown, top_dropdown, bottom_dropdown, background_dropdown, lighting_dropdown, color_dropdown, texture_dropdown, camera_dropdown,  framing_dropdown, mood_dropdown, story_dropdown, post_processing_dropdown],
-            outputs=[output_text]
-        )
-        background_dropdown.change(
-            fn=handle_dropdown_change,
-            inputs=[style_dropdown, technique_dropdown, subject_dropdown, action_dropdown, affective_adverb_dropdown, physique_dropdown, hairstyle_dropdown, facial_features_dropdown, top_dropdown, bottom_dropdown, background_dropdown, lighting_dropdown, color_dropdown, texture_dropdown, camera_dropdown,  framing_dropdown, mood_dropdown, story_dropdown, post_processing_dropdown],
-            outputs=[output_text]
-        )
-        lighting_dropdown.change(
-            fn=handle_dropdown_change,
-            inputs=[style_dropdown, technique_dropdown, subject_dropdown, action_dropdown, affective_adverb_dropdown, physique_dropdown, hairstyle_dropdown, facial_features_dropdown, top_dropdown, bottom_dropdown, background_dropdown, lighting_dropdown, color_dropdown, texture_dropdown, camera_dropdown,  framing_dropdown, mood_dropdown, story_dropdown, post_processing_dropdown],
-            outputs=[output_text]
-        )
-        color_dropdown.change(
-            fn=handle_dropdown_change,
-            inputs=[style_dropdown, technique_dropdown, subject_dropdown, action_dropdown, affective_adverb_dropdown, physique_dropdown, hairstyle_dropdown, facial_features_dropdown, top_dropdown, bottom_dropdown, background_dropdown, lighting_dropdown, color_dropdown, texture_dropdown, camera_dropdown,  framing_dropdown, mood_dropdown, story_dropdown, post_processing_dropdown],
-            outputs=[output_text]
-        )
-        texture_dropdown.change(
-            fn=handle_dropdown_change,
-            inputs=[style_dropdown, technique_dropdown, subject_dropdown, action_dropdown, affective_adverb_dropdown, physique_dropdown, hairstyle_dropdown, facial_features_dropdown, top_dropdown, bottom_dropdown, background_dropdown, lighting_dropdown, color_dropdown, texture_dropdown, camera_dropdown,  framing_dropdown, mood_dropdown, story_dropdown, post_processing_dropdown],
-            outputs=[output_text]
-        )
-        camera_dropdown.change(
-            fn=handle_dropdown_change,
-            inputs=[style_dropdown, technique_dropdown, subject_dropdown, action_dropdown, affective_adverb_dropdown, physique_dropdown, hairstyle_dropdown, facial_features_dropdown, top_dropdown, bottom_dropdown, background_dropdown, lighting_dropdown, color_dropdown, texture_dropdown, camera_dropdown,  framing_dropdown, mood_dropdown, story_dropdown, post_processing_dropdown],
-            outputs=[output_text]
-        )
-        framing_dropdown.change(
-            fn=handle_dropdown_change,
-            inputs=[style_dropdown, technique_dropdown, subject_dropdown, action_dropdown, affective_adverb_dropdown, physique_dropdown, hairstyle_dropdown, facial_features_dropdown, top_dropdown, bottom_dropdown, background_dropdown, lighting_dropdown, color_dropdown, texture_dropdown, camera_dropdown,  framing_dropdown, mood_dropdown, story_dropdown, post_processing_dropdown],
-            outputs=[output_text]
-        )
-        mood_dropdown.change(
-            fn=handle_dropdown_change,
-            inputs=[style_dropdown, technique_dropdown, subject_dropdown, action_dropdown, affective_adverb_dropdown, physique_dropdown, hairstyle_dropdown, facial_features_dropdown, top_dropdown, bottom_dropdown, background_dropdown, lighting_dropdown, color_dropdown, texture_dropdown, camera_dropdown,  framing_dropdown, mood_dropdown, story_dropdown, post_processing_dropdown],
-            outputs=[output_text]
-        )
-        story_dropdown.change(
-            fn=handle_dropdown_change,
-            inputs=[style_dropdown, technique_dropdown, subject_dropdown, action_dropdown, affective_adverb_dropdown, physique_dropdown, hairstyle_dropdown, facial_features_dropdown, top_dropdown, bottom_dropdown, background_dropdown, lighting_dropdown, color_dropdown, texture_dropdown, camera_dropdown,  framing_dropdown, mood_dropdown, story_dropdown, post_processing_dropdown],
-            outputs=[output_text]
-        )
-        post_processing_dropdown.change(
-            fn=handle_dropdown_change,
-            inputs=[style_dropdown, technique_dropdown, subject_dropdown, action_dropdown, affective_adverb_dropdown, physique_dropdown, hairstyle_dropdown, facial_features_dropdown, top_dropdown, bottom_dropdown, background_dropdown, lighting_dropdown, color_dropdown, texture_dropdown, camera_dropdown,  framing_dropdown, mood_dropdown, story_dropdown, post_processing_dropdown],
-            outputs=[output_text]
-        )
-
+    config_checkbox.change(
+        fn=toggle_visibility,
+        inputs=[config_checkbox],
+        outputs=[
+            output_text, style_dropdown, technique_dropdown, subject_dropdown, action_dropdown, affective_adverb_dropdown, physique_dropdown, hairstyle_dropdown, facial_features_dropdown, top_dropdown, bottom_dropdown, background_dropdown, lighting_dropdown, color_dropdown, texture_dropdown, camera_dropdown, framing_dropdown, mood_dropdown, story_dropdown, post_processing_dropdown
+        ]
+    )
 demo.launch(inbrowser=True)
