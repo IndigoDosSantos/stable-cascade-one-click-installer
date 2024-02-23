@@ -223,7 +223,13 @@ with gr.Blocks(theme=gr.themes.Soft()) as demo: # Change to your desired theme
             inputs=[prompt, height, width, negative_prompt, guidance_scale, num_inference_steps, num_images_per_prompt, seed],
             outputs=[gallery]
         )
-        
+checkbox = gr.Checkbox(label="Show Prompt Configurator") # Checkbox to control visibility
+group = gr.Group() # Group to hold the configurator elements
+
+def toggle_visibility(checked):
+    group.visible = checked
+
+with group:
     with gr.Blocks():
         with gr.Row():
             # Prompt Configurator dropdowns
@@ -256,6 +262,8 @@ with gr.Blocks(theme=gr.themes.Soft()) as demo: # Change to your desired theme
         with gr.Row():
             post_processing_dropdown = gr.Dropdown(post_processing, label="Post-processing")
 
+        checkbox.change(toggle_visibility, checkbox, group)
+
         # Assuming you want to do something with the dropdowns, like displaying the selected value
         style_dropdown.change(
             fn=handle_dropdown_change,
@@ -264,22 +272,22 @@ with gr.Blocks(theme=gr.themes.Soft()) as demo: # Change to your desired theme
         )
         technique_dropdown.change(
             fn=handle_dropdown_change,
-            inputs=[style_dropdown, technique_dropdown, subject_dropdown, action_dropdown, affective_adverb_dropdown],
+            inputs=[style_dropdown, technique_dropdown, subject_dropdown, action_dropdown, affective_adverb_dropdown, physique_dropdown, hairstyle_dropdown, facial_features_dropdown, top_dropdown, bottom_dropdown, background_dropdown, lighting_dropdown, color_dropdown, texture_dropdown, camera_dropdown,  framing_dropdown, mood_dropdown, story_dropdown, post_processing_dropdown],
             outputs=[output_text]
         )
         subject_dropdown.change(
             fn=handle_dropdown_change,
-            inputs=[style_dropdown, technique_dropdown, subject_dropdown, action_dropdown, affective_adverb_dropdown],
+            inputs=[style_dropdown, technique_dropdown, subject_dropdown, action_dropdown, affective_adverb_dropdown, physique_dropdown, hairstyle_dropdown, facial_features_dropdown, top_dropdown, bottom_dropdown, background_dropdown, lighting_dropdown, color_dropdown, texture_dropdown, camera_dropdown,  framing_dropdown, mood_dropdown, story_dropdown, post_processing_dropdown],
             outputs=[output_text]
         )
         action_dropdown.change(
             fn=handle_dropdown_change,
-            inputs=[style_dropdown, technique_dropdown,  subject_dropdown, action_dropdown, affective_adverb_dropdown],
+            inputs=[style_dropdown, technique_dropdown,  subject_dropdown, action_dropdown, affective_adverb_dropdown, physique_dropdown, hairstyle_dropdown, facial_features_dropdown, top_dropdown, bottom_dropdown, background_dropdown, lighting_dropdown, color_dropdown, texture_dropdown, camera_dropdown,  framing_dropdown, mood_dropdown, story_dropdown, post_processing_dropdown],
             outputs=[output_text]
         )
         affective_adverb_dropdown.change(
             fn=handle_dropdown_change,
-            inputs=[style_dropdown, technique_dropdown,  subject_dropdown, action_dropdown, affective_adverb_dropdown],
+            inputs=[style_dropdown, technique_dropdown, subject_dropdown, action_dropdown, affective_adverb_dropdown, physique_dropdown, hairstyle_dropdown, facial_features_dropdown, top_dropdown, bottom_dropdown, background_dropdown, lighting_dropdown, color_dropdown, texture_dropdown, camera_dropdown,  framing_dropdown, mood_dropdown, story_dropdown, post_processing_dropdown],
             outputs=[output_text]
         )
         physique_dropdown.change(
