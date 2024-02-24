@@ -217,15 +217,8 @@ with gr.Blocks(theme=gr.themes.Soft()) as demo: # Change to your desired theme
     def handle_dropdown_change(*args):
         selected_options = ' '.join([str(arg) for arg in args if arg])
         return selected_options
-
-    # Define the toggle visibility function
-    def toggle_visibility(checked):
-        configurator_group.visible = checked
-        return [checked] * 20
-
-    # Create the main Blocks container
-    config_checkbox = gr.Checkbox(label="Show Prompt Configurator", value=True) # Checkbox to control visibility
-    configurator_group = gr.Group(visible=True) # Group to hold the configurator elements. Initially hidden.
+        
+    configurator_group = gr.Group(visibe=True) # Group to hold the configurator elements. Initially hidden.
         
     with configurator_group:
         with gr.Row():
@@ -356,11 +349,12 @@ with gr.Blocks(theme=gr.themes.Soft()) as demo: # Change to your desired theme
                 outputs=[output_text]
             )
 
-    config_checkbox.change(
-        fn=toggle_visibility,
-        inputs=[config_checkbox],
-        outputs=[
-            output_text, style_dropdown, technique_dropdown, subject_dropdown, action_dropdown, affective_adverb_dropdown, physique_dropdown, hairstyle_dropdown, facial_features_dropdown, top_dropdown, bottom_dropdown, background_dropdown, lighting_dropdown, color_dropdown, texture_dropdown, camera_dropdown, framing_dropdown, mood_dropdown, story_dropdown, post_processing_dropdown
-        ]
-    )
+    # def show_configurator():
+        # configurator_group.visible = True
+        # demo.render()
+
+    # configurator_button = gr.Button("Show Configurator")
+    # configurator_button.click(show_configurator)
+    # print("Configurator Button clicked!")
+
 demo.launch(inbrowser=True)
