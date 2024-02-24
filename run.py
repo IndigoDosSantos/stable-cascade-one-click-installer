@@ -218,7 +218,7 @@ with gr.Blocks(theme=gr.themes.Soft()) as demo: # Change to your desired theme
         selected_options = ' '.join([str(arg) for arg in args if arg])
         return selected_options
         
-    configurator_group = gr.Group(visibe=True) # Group to hold the configurator elements. Initially hidden.
+    configurator_group = gr.Group(visible=True) # Group to hold the configurator elements. Initially hidden.
         
     with configurator_group:
         with gr.Row():
