@@ -5,6 +5,7 @@
 Easy setup for generating beautiful images with Stable Cascade.
 
 ### Updates
+- Lower VRAM requirements (~11 GB)
 - Gradio GUI (thank you [@Acephalia](https://github.com/Acephalia))
 - Steps and seed control
 - Linux/OS X support (thank you [@il-katta](https://github.com/il-katta))
