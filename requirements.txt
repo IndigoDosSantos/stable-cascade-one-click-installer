@@ -6,7 +6,7 @@
 # Stability AI Non-Commercial Research Community License Agreement, dated November 28, 2023.
 # For more information, see https://stability.ai/use-policy.
 
-# Dependencies for [Your Project Name]
+# Dependencies for [stable-cascade-one-click-installer]
 # This project uses the following open-source packages:
 
 --find-links https://download.pytorch.org/whl/torch_stable.html
