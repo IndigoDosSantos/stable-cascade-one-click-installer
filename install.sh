@@ -12,7 +12,7 @@ if [ ! -d "venv" ]; then
 fi
 
 # Upgrade pip before `pip install`
-python -m pip install --upgrade pip
+./venv/bin/python -m pip install --upgrade pip
 
 # Install the custom diffusers version from GitHub
 ./venv/bin/pip install git+https://github.com/EtienneDosSantos/diffusers.git@wuerstchen-v3
