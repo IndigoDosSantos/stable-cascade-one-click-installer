@@ -15,6 +15,9 @@ call venv\Scripts\activate.bat
 REM Upgrade pip before `pip install`
 python -m pip install --upgrade pip
 
+REM Install the custom diffusers version from GitHub
+pip install git+https://github.com/EtienneDosSantos/diffusers.git@wuerstchen-v3
+
 REM Install other requirements
 pip install -r requirements.txt
 
