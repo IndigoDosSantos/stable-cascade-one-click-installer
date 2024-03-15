@@ -22,9 +22,9 @@ output_directory = "./Output"
 def load_model(model_name):
     # Load model from disk every time it's needed
     if model_name == "prior":
-        model = StableCascadePriorPipeline.from_pretrained("stabilityai/stable-cascade-prior", torch_dtype=dtype).to(device)
+        model = StableCascadePriorPipeline.from_pretrained("stabilityai/stable-cascade-prior", variant="bf16", torch_dtype=dtype).to(device)
     elif model_name == "decoder":
-        model = StableCascadeDecoderPipeline.from_pretrained("stabilityai/stable-cascade", torch_dtype=dtype).to(device)
+        model = StableCascadeDecoderPipeline.from_pretrained("stabilityai/stable-cascade", variant="bf16", torch_dtype=torch.float16).to(device)
     else:
         raise ValueError(f"Unknown model name: {model_name}")
     return model
@@ -63,6 +63,7 @@ def generate_images(prompt, height, width, negative_prompt, guidance_scale, num_
     with torch.cuda.amp.autocast(dtype=dtype): 
         generator = torch.Generator(device).manual_seed(torch.seed() if seed == -1 else seed)
 
+    prior.enable_model_cpu_offload()
     prior_output = prior(
         prompt=cleaned_prompt,
         height=int(height),
@@ -78,8 +79,9 @@ def generate_images(prompt, height, width, negative_prompt, guidance_scale, num_
 
     # Load, use, and discard the decoder model
     decoder = load_model("decoder")
+    decoder.enable_model_cpu_offload()
     decoder_output = decoder(
-        image_embeddings=prior_output.image_embeddings,
+        image_embeddings=prior_output.image_embeddings.to(torch.float16),
         prompt=cleaned_prompt,
         negative_prompt=negative_prompt,
         guidance_scale=0.0,
