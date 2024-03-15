@@ -11,6 +11,7 @@
 
 --find-links https://download.pytorch.org/whl/torch_stable.html
 accelerate>=0.25.0
+diffusers
 einops>=0.7.0
 gradio
 kornia>=0.7.0
