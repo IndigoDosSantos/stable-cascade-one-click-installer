@@ -1,7 +1,8 @@
 @echo off
 COLOR 0B
 
-cd %~dp0
+REM Move to the directory above the script's location
+cd %~dp0..
 git pull
 
 echo "Update finished! Press Enter to celebrate ^_^"
