@@ -7,9 +7,9 @@ Easy setup for generating beautiful images with Stable Cascade.
 ### Table of Contents
 1. [Stable Cascade One-Click Installer](#stable-cascade-one-click-installer)
    - [Updates](#updates)
-2. [Installation](#installation)
+2. [Installation](#installation-windows)
    - [Windows](#installation-windows)
-   - [Linux/OS X](#installation-linuxos-x)
+   - [Linux/OS X](#installation--linuxos-x)
 3. [Requirements](#requirements)
 4. [Acknowledgments](#acknowledgments)
 
