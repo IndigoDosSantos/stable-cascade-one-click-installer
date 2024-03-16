@@ -1,3 +1,14 @@
+### 16.03.2024
+
+* **Enhanced installation process:**
+   * Revised installation to enable `git pull` for updates regardless of initial installation method (ZIP download or Git clone).
+
+* **README.md improvements:**
+   * Added a table of contents for enhanced navigation.
+
+* **Structural streamlining:**
+   * Cleaned up the repo structure to remove visual clutter. 
+
 ### 15.03.2024
 
 * **Adapted model integration:**  
