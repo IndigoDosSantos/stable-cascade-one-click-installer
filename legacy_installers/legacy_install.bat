@@ -1,4 +1,12 @@
 @echo off
+setlocal
+
+REM Capture the current script's directory
+set "script_dir=%~dp0"
+
+REM Change to the directory above
+cd ..
+
 REM Check for Python and exit if not found
 python --version >nul 2>&1
 if %errorlevel% neq 0 (
@@ -6,7 +14,7 @@ if %errorlevel% neq 0 (
     exit /b
 )
 
-REM Create a virtual environment
+REM Create a virtual environment in the current directory (which is now one level up)
 python -m venv venv
 
 REM Activate the virtual environment
