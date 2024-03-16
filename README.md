@@ -1,4 +1,4 @@
-![](https://github.com/EtienneDosSantos/stable-cascade-one-click-installer/blob/main/stable-cascade-one-click-installer_background.png)
+![](https://github.com/EtienneDosSantos/stable-cascade-one-click-installer/blob/main/assets/stable-cascade-one-click-installer_background.png)
 
 ## Stable Cascade One-Click Installer
 
