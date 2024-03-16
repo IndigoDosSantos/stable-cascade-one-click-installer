@@ -12,25 +12,37 @@ Easy setup for generating beautiful images with Stable Cascade.
 
 **Note:** For all future updates, please refer to the [CHANGELOG.md](https://github.com/EtienneDosSantos/stable-cascade-one-click-installer/blob/main/CHANGELOG.md) file.
 
-### Installation ( Windows )
+### Installation (Windows)
 
-1. **Download**: Get the installer by clicking this link: [Download ZIP](https://github.com/EtienneDosSantos/stable-cascade-one-click-installer/archive/refs/heads/main.zip)
+1. **Download**: Get the installer by clicking this link: [Download ZIP](https://github.com/EtienneDosSantos/SC-oci-install.bat-downloader/archive/refs/heads/main.zip)
 
-2. **Extract**: Unzip the downloaded file to your preferred location.
+2. **Extract and Find**: 
+   * Unzip the downloaded file.
+   * Locate the `install.bat` file within the extracted folder.
+   * Move this `install.bat` file to your desired location on your computer.  
 
-3. **Install**: Double-click the `install.bat` file to automatically set up all dependencies.
+3. **Install Dependencies:**
+   * Double-click the `install.bat` file to start the installation process.
 
-4. **Generate**: Double-click `run.bat` to open the image generation script and get creative!
+4. **Start Generating:**
+   * The 'stable-cascade-one-click-installer' directory was created in the same location where you ran the `install.bat` file. 
+   * Double-click the `run.bat` file inside this directory to start generating images. 
 
 ### Installation ( Linux/OS X)
 
-1. **Download**: Get the installer by clicking this link: [Download ZIP](https://github.com/EtienneDosSantos/stable-cascade-one-click-installer/archive/refs/heads/main.zip)
+1. **Download**: Get the installer by clicking this link: [Download ZIP](https://github.com/EtienneDosSantos/SC-oci-install.sh-downloader/archive/refs/heads/main.zip)
 
-2. **Extract**: Unzip the downloaded file to your preferred location.
+2. **Extract and Find**: 
+   * Unzip the downloaded file.
+   * Locate the `install.sh` file within the extracted folder.
+   * Move this `install.sh` file to your desired location on your computer.  
 
-3. **Install**: Execute the `install.sh` script to automatically set up all dependencies.
+3. **Install Dependencies:**
+   * Double-click the `install.sh` file to start the installation process.
 
-4. **Generate**: Execute `run.sh` script to start image generation
+4. **Start Generating:**
+   * The 'stable-cascade-one-click-installer' directory was created in the same location where you ran the `install.sh` file. 
+   * Double-click the `run.sh` file inside this directory to start generating images.
 
 
 ### Requirements
