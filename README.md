@@ -61,4 +61,4 @@ Easy setup for generating beautiful images with Stable Cascade.
 
 ## Acknowledgments
 
-This project makes use of code and models from Stability AI, licensed under the Stability AI Non-Commercial Research Community License Agreement. The full license agreement is available in this repository ([LICENSE-StabilityAI.txt](./LICENSE-StabilityAI.txt)). For more information about Stability AI and their work, visit [their website](https://stability.ai/).
+This project makes use of code and models from Stability AI, licensed under the Stability AI Non-Commercial Research Community License Agreement. The full license agreement is available in this repository ([LICENSE-StabilityAI](./LICENSE-StabilityAI)). For more information about Stability AI and their work, visit [their website](https://stability.ai/).
