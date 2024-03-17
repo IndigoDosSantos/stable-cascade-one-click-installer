@@ -1,3 +1,11 @@
+### 17.03.2024
+
+* **[PR #30:](https://github.com/EtienneDosSantos/stable-cascade-one-click-installer/commit/c56d43b614f9aeb2c317910a127b140c8da92a55)**
+  * Updated torch and torchvision versions to address conflicts on Linux Mint.
+  * Modified `run.py` to guarantee compatibility with Linux Mint.
+
+**Acknowledgement:** Thanks to @thomasmcgannon for identifying these issues in [#29](https://github.com/EtienneDosSantos/stable-cascade-one-click-installer/issues/29) !
+
 ### 16.03.2024
 
 * **Enhanced installation process:**
