@@ -1,10 +1,9 @@
 ## Reporting a Vulnerability
 
-**Please report potential security vulnerabilities directly to the project maintainer ([@EtienneDosSantos](https://github.com/EtienneDosSantos)) by opening a GitHub issue:**
+**Please report potential security vulnerabilities directly to the project maintainer using GitHub's Security Advisories feature:**
 
-* Create a new issue and label it with "security-vulnerability".
-* Provide a clear description of the issue, but avoid publicly sharing sensitive details.
-* The maintainer will contact you privately for further information.
+*  Visit this link: [Open a draft security advisory](https://github.com/EtienneDosSantos/stable-cascade-one-click-installer/security/advisories/new)
+*  Follow the instructions provided to report the vulnerability. 
 
 **Acknowledgement and Response:** 
 
