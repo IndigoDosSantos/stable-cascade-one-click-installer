@@ -10,6 +10,7 @@ from diffusers import StableCascadeDecoderPipeline, StableCascadePriorPipeline
 import gradio as gr
 import json
 import os
+from PIL import Image
 import re
 import torch
 import uuid
@@ -61,7 +62,9 @@ def generate_images(prompt, height, width, negative_prompt, guidance_scale, num_
     # Load, use, and discard the prior model
     prior = load_model("prior")
     with torch.cuda.amp.autocast(dtype=dtype): 
-        generator = torch.Generator(device).manual_seed(torch.seed() if seed == -1 else seed)
+        seed = torch.seed() if seed == -1 else seed  # Get the initial seed
+        torch.manual_seed(seed)  # Apply the seed for generation
+        generator = torch.Generator(device).manual_seed(seed)  # Preserve for reproducibility
 
     prior.enable_model_cpu_offload()
     prior_output = prior(
@@ -92,8 +95,13 @@ def generate_images(prompt, height, width, negative_prompt, guidance_scale, num_
     del decoder  # Explicitly delete the model to help with memory management
     torch.cuda.empty_cache()  # Clear the CUDA cache to free up unused memory
 
+    #Define the metadata you want to save
+    metadata = {
+        "seed": str(seed)
+    }
+
     for image in decoder_output:
-        unique_filename = f"generated_image_{uuid.uuid4()}.png"
+        unique_filename = f"image_seed-{metadata['seed']}_identifier-{uuid.uuid4()}.png"
         save_path = os.path.join(output_directory, unique_filename)
         image.save(save_path)
         output_images.append(save_path)
