@@ -4,12 +4,12 @@
 
 * **Goal:** Embed essential generation parameters within generated images for reproducibility and analysis.
 * **Metadata to Include:**
-    - Seed
-    - Number of steps
-    - Model name
-    - CFG value
-    - Sampler
-    - Prompt
+    - [x] Seed
+    - [x] Number of steps
+    - [x] Model name
+    - [x] CFG value
+    - [ ] Sampler
+    - [x] Prompt
 
 * **Implementation Steps:**
     - **Library Selection:** Research image metadata libraries (e.g., ExifWrite, PIL/Pillow).
@@ -20,6 +20,6 @@
 
 * **Goal:** Restore the ability to generate multiple images per prompt.
 * **Troubleshooting Steps:**
-    - **Error Analysis:** Identify the specific error or unexpected behavior.
-    - **Code Review:** Examine logic related to batch size handling.
-    - **Dependency Check:** Ensure compatibility between any updated libraries and the batching functionality.
+    - [ ] **Error Analysis:** Identify the specific error or unexpected behavior.
+    - [ ] **Code Review:** Examine logic related to batch size handling.
+    - [ ] **Dependency Check:** Ensure compatibility between any updated libraries and the batching functionality.
