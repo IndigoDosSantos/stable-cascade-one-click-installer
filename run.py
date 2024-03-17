@@ -10,6 +10,8 @@ from diffusers import StableCascadeDecoderPipeline, StableCascadePriorPipeline
 import gradio as gr
 import json
 import os
+from PIL import Image
+from PIL.PngImagePlugin import PngInfo
 import re
 import torch
 import uuid
@@ -17,7 +19,7 @@ import uuid
 # Initialize global settings
 device = "cuda"
 dtype = torch.bfloat16
-output_directory = "./Output"
+output_directory = "./output"
 
 def load_model(model_name):
     # Load model from disk every time it's needed
@@ -60,8 +62,11 @@ def generate_images(prompt, height, width, negative_prompt, guidance_scale, num_
 
     # Load, use, and discard the prior model
     prior = load_model("prior")
+    
     with torch.cuda.amp.autocast(dtype=dtype): 
-        generator = torch.Generator(device).manual_seed(torch.seed() if seed == -1 else seed)
+        seed = torch.seed() if seed == -1 else seed  # Get the initial seed
+        torch.manual_seed(seed)  # Apply the seed for generation
+        generator = torch.Generator(device).manual_seed(seed)  # Preserve for reproducibility
 
     prior.enable_model_cpu_offload()
     prior_output = prior(
@@ -92,10 +97,36 @@ def generate_images(prompt, height, width, negative_prompt, guidance_scale, num_
     del decoder  # Explicitly delete the model to help with memory management
     torch.cuda.empty_cache()  # Clear the CUDA cache to free up unused memory
 
+    metadata_embedded = {
+     "parameters": "Stable Cascade",
+     "prompt": cleaned_prompt,
+     "negative_prompt": negative_prompt,
+     "width": int(width),
+     "height": int(height),
+     "steps": (calculated_steps_prior, calculated_steps_decoder),
+     "guidance_scale": float(guidance_scale),
+     "seed": str(seed)
+     # ... any other metadata you want
+    }
+
+    #Define the metadata you want to save
+    metadata_filename = {
+        "seed": str(seed)
+    }
+
+    # Metadata and Saving
     for image in decoder_output:
-        unique_filename = f"generated_image_{uuid.uuid4()}.png"
+        unique_filename = f"image_seed-{metadata_filename['seed']}_identifier-{uuid.uuid4()}.png"
         save_path = os.path.join(output_directory, unique_filename)
-        image.save(save_path)
+
+        # Prepare metadata using PngInfo
+        metadata = PngInfo()
+        for key, value in metadata_embedded.items(): # Iterate through metadata_embedded
+            if not isinstance(value, str): # Check if value is already a string
+                value = str(value) # Convert to string if needed
+            metadata.add_text(key, value)
+
+        image.save(save_path, pnginfo=metadata) # Embed and save
         output_images.append(save_path)
     
     return output_images
