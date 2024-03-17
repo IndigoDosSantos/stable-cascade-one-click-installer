@@ -19,7 +19,7 @@ Easy setup for generating beautiful images with Stable Cascade.
 - Steps and seed control
 - Linux/OS X support (thank you [@il-katta](https://github.com/il-katta))
 
-**Note:** For all future updates, please refer to the [CHANGELOG.md](https://github.com/EtienneDosSantos/stable-cascade-one-click-installer/blob/main/CHANGELOG.md) file.
+**Note:** For all future updates, please refer to the [CHANGELOG.md](docs/CHANGELOG.md) file.
 
 ### Installation (Windows)
 
