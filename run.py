@@ -128,7 +128,7 @@ post_processing = data['post_processing']
 
 # UI Layout putting Configurator blocks inside a function for clarity.
 def configure_ui():
-    with gr.Blocks(theme=gr.themes.Soft()) as demo: # Change to your desired theme
+    with gr.Blocks(theme=gr.themes.Soft(), analytics_enabled=False) as demo: # Change to your desired theme
         gr.HTML("""
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
