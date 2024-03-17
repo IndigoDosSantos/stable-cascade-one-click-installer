@@ -17,7 +17,7 @@ import uuid
 # Initialize global settings
 device = "cuda"
 dtype = torch.bfloat16
-output_directory = "./Output"
+output_directory = "./output"
 
 def load_model(model_name):
     # Load model from disk every time it's needed
