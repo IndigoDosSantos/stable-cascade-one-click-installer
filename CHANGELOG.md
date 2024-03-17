@@ -1,6 +1,6 @@
 ### 17.03.2024
 
-* **[PR #31:](https://github.com/EtienneDosSantos/stable-cascade-one-click-installer/commit/c56d43b614f9aeb2c317910a127b140c8da92a55)**
+* **[PR #31:](https://github.com/EtienneDosSantos/stable-cascade-one-click-installer/commit/e84010c83daa126b10cecae584cb8a4979689528)**
   * Generated image filenames follow the format: `image_seed-[seed]_identifier-[UUID].png`.
   * Generation metadata (model, prompt, negative prompt, etc.) is embedded within the PNG files.
 
