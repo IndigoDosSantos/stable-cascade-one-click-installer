@@ -1,5 +1,12 @@
 ### Features to Add:
 
+**3. Test Decoder Dtype Influence**
+
+* **`torch.bfloat16` vs. `torch.float16`:**
+    - [ ] VRAM footprint
+    - [ ] Inference speed
+    - [ ] Image quality
+
 **2. Batch Size Fix (>1)**
 
 * **Goal:** Restore the ability to generate multiple images per prompt.
