@@ -95,6 +95,7 @@ def generate_images(prompt, height, width, negative_prompt, guidance_scale, num_
     
     metadata_embedded = {
      "parameters": "Stable Cascade",
+     "scheduler": "DDPMWuerstchenScheduler",
      "prompt": cleaned_prompt,
      "negative_prompt": negative_prompt,
      "width": int(width),
