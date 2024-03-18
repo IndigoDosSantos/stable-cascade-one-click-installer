@@ -89,7 +89,7 @@ def generate_images(prompt, height, width, negative_prompt, guidance_scale, num_
         image_embeddings=prior_output.image_embeddings.to(torch.float16),
         prompt=cleaned_prompt,
         negative_prompt=negative_prompt,
-        guidance_scale=0.0,
+        guidance_scale=1.1, # Guidance scale is enabled by setting guidance_scale > 1
         num_inference_steps=calculated_steps_decoder,
         output_type="pil",
         generator=generator,
