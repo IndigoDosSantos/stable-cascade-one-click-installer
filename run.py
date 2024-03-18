@@ -79,8 +79,6 @@ def generate_images(prompt, height, width, negative_prompt, guidance_scale, num_
         num_images_per_prompt=int(num_images_per_prompt),
         generator=generator,
     )
-    del prior  # Explicitly delete the model to help with memory management
-    torch.cuda.empty_cache()  # Clear the CUDA cache to free up unused memory
 
     # Load, use, and discard the decoder model
     decoder = load_model("decoder")
@@ -94,9 +92,7 @@ def generate_images(prompt, height, width, negative_prompt, guidance_scale, num_
         output_type="pil",
         generator=generator,
     ).images
-    del decoder  # Explicitly delete the model to help with memory management
-    torch.cuda.empty_cache()  # Clear the CUDA cache to free up unused memory
-
+    
     metadata_embedded = {
      "parameters": "Stable Cascade",
      "prompt": cleaned_prompt,
