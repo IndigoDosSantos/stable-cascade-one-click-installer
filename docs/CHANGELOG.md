@@ -1,5 +1,8 @@
 ### 17.03.2024
 
+* **[PR #7381:](https://github.com/huggingface/diffusers/pull/7381)**
+  * Fixed the bug so we can generate multiple images simultaneously – thx [@DN6](https://github.com/DN6)! 🎉
+
 * **[PR #31:](https://github.com/EtienneDosSantos/stable-cascade-one-click-installer/commit/e84010c83daa126b10cecae584cb8a4979689528)**
   * Generated image filenames follow the format: `image_seed-[seed]_identifier-[UUID].png`.
   * Generation metadata (model, prompt, negative prompt, etc.) is embedded within the PNG files.
