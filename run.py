@@ -26,7 +26,7 @@ def load_model(model_name):
     if model_name == "prior":
         model = StableCascadePriorPipeline.from_pretrained("stabilityai/stable-cascade-prior", variant="bf16", torch_dtype=dtype).to(device)
     elif model_name == "decoder":
-        model = StableCascadeDecoderPipeline.from_pretrained("stabilityai/stable-cascade", variant="bf16", torch_dtype=torch.float16).to(device)
+        model = StableCascadeDecoderPipeline.from_pretrained("stabilityai/stable-cascade", variant="bf16", torch_dtype=dtype).to(device)
     else:
         raise ValueError(f"Unknown model name: {model_name}")
     return model
@@ -84,7 +84,7 @@ def generate_images(prompt, height, width, negative_prompt, guidance_scale, num_
     decoder = load_model("decoder")
     decoder.enable_model_cpu_offload()
     decoder_output = decoder(
-        image_embeddings=prior_output.image_embeddings.to(torch.float16),
+        image_embeddings=prior_output.image_embeddings.to(dtype),
         prompt=cleaned_prompt,
         negative_prompt=negative_prompt,
         guidance_scale=1.1, # Guidance scale is enabled by setting guidance_scale > 1
@@ -188,7 +188,7 @@ def configure_ui():
             with gr.Column():
                 # components in central column
                 num_inference_steps = gr.Slider(minimum=1, maximum=150, step=1, value=30, label="Steps")
-                num_images_per_prompt = gr.Number(label="Number of Images per Prompt)", value=2)
+                num_images_per_prompt = gr.Number(label="Number of Images per Prompt (Currently, the system can only generate one image at a time. Please leave the 'Images per Prompt' setting at 1 until this issue is fixed.)", value=1)
             with gr.Column():
                 # components in right column
                 guidance_scale = gr.Slider(minimum=1, maximum=20, step=0.5, value=4.0, label="Guidance Scale")
