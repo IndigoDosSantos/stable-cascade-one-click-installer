@@ -7,11 +7,11 @@
     - [ ] Inference speed
     - [ ] Image quality
 
-**2. Batch Size Fix (>1)**
+**2. Batch Size Fix (>1)** ✔️
 
 * **Goal:** Restore the ability to generate multiple images per prompt.
     - [x] Not getting anywhere, opened [issue #7377](https://github.com/huggingface/diffusers/issues/7377) to hopefully get this resolved.
-        - [ ] **Issue Review:** Test provided solution to issue.
+        - [x] **Issue Review:** Test provided solution to issue ([PR #7381](https://github.com/huggingface/diffusers/pull/7381))! Amazing work, thx [@DN6](https://github.com/DN6)! 🎉
 * **Troubleshooting Steps:**
     - [ ] **Error Analysis:** Identify the specific error or unexpected behavior.
     - [ ] **Code Review:** Examine logic related to batch size handling.
