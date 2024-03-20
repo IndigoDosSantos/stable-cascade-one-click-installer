@@ -6,7 +6,7 @@
 # Stability AI Non-Commercial Research Community License Agreement, dated November 28, 2023.
 # For more information, see https://stability.ai/use-policy.
 
-from diffusers import StableCascadeDecoderPipeline, StableCascadePriorPipeline
+from diffusers import StableCascadeDecoderPipeline, StableCascadePriorPipeline, StableCascadeUNet
 import gradio as gr
 import json
 import os
@@ -87,7 +87,7 @@ def generate_images(prompt, height, width, negative_prompt, guidance_scale, num_
         image_embeddings=prior_output.image_embeddings.to(dtype),
         prompt=cleaned_prompt,
         negative_prompt=negative_prompt,
-        guidance_scale=1.1, # Guidance scale is enabled by setting guidance_scale > 1
+        guidance_scale=1.9, # Guidance scale is enabled by setting guidance_scale > 1
         num_inference_steps=calculated_steps_decoder,
         output_type="pil",
         generator=generator,
@@ -187,7 +187,7 @@ def configure_ui():
                 height = gr.Slider(minimum=512, maximum=2048, step=1, value=1024, label="Image Height")
             with gr.Column():
                 # components in central column
-                num_inference_steps = gr.Slider(minimum=1, maximum=150, step=1, value=30, label="Steps")
+                num_inference_steps = gr.Slider(minimum=1, maximum=150, step=1, value=54, label="Steps")
                 num_images_per_prompt = gr.Number(label="Number of Images per Prompt", value=2)
             with gr.Column():
                 # components in right column
