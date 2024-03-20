@@ -1,7 +1,14 @@
-### 17.03.2024
+### 20.03.2024
+
+* **Key finding:** Using torch.bfloat16 for the decoder significantly increased model loading speed (3.24x faster) compared to torch.float16. "Other performance metrics remained virtually unchanged, and surprisingly, there was no perceptible difference in image quality (see [Figure 1](https://github.com/EtienneDosSantos/stable-cascade-one-click-installer/blob/dev/assets/dtype_comparison_two_images.jpg)).
+  * **Charts:** I've created two charts visualizing these results (see [Figure 2](https://github.com/EtienneDosSantos/stable-cascade-one-click-installer/blob/dev/assets/charts/chart_dtype_inference_and_loading_speeds_compared.png), [Figure 3](https://github.com/EtienneDosSantos/stable-cascade-one-click-installer/blob/dev/assets/charts/chart_dtype_VRAM_footprint_compared.png)).
+
+### 19.03.2024
 
 * **[PR #7381:](https://github.com/huggingface/diffusers/pull/7381)**
   * Fixed the bug so we can generate multiple images simultaneously – thx [@DN6](https://github.com/DN6)! 🎉
+
+### 17.03.2024
 
 * **[PR #31:](https://github.com/EtienneDosSantos/stable-cascade-one-click-installer/commit/e84010c83daa126b10cecae584cb8a4979689528)**
   * Generated image filenames follow the format: `image_seed-[seed]_identifier-[UUID].png`.
