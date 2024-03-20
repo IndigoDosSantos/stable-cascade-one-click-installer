@@ -1,5 +1,6 @@
 ### 20.03.2024
 
+* Set guidance_scale (decoder) to 1.9 and num_inference_steps to 54 for optimal image quality.
 * **Key finding:** Using torch.bfloat16 for the decoder significantly increased model loading speed (3.24x faster) compared to torch.float16. "Other performance metrics remained virtually unchanged, and surprisingly, there was no perceptible difference in image quality (see [Figure 1](https://github.com/EtienneDosSantos/stable-cascade-one-click-installer/blob/dev/assets/dtype_comparison_two_images.jpg)).
   * **Charts:** I've created two charts visualizing these results (see [Figure 2](https://github.com/EtienneDosSantos/stable-cascade-one-click-installer/blob/dev/assets/charts/chart_dtype_inference_and_loading_speeds_compared.png), [Figure 3](https://github.com/EtienneDosSantos/stable-cascade-one-click-installer/blob/dev/assets/charts/chart_dtype_VRAM_footprint_compared.png)).
 
