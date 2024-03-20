@@ -24,9 +24,9 @@ output_directory = "./output"
 def load_model(model_name):
     # Load model from disk every time it's needed
     if model_name == "prior":
-        model = StableCascadePriorPipeline.from_pretrained("stabilityai/stable-cascade-prior", variant="bf16", torch_dtype=dtype).to(device)
+        model = StableCascadePriorPipeline.from_pretrained("stabilityai/stable-cascade-prior", variant="bf16", torch_dtype=dtype, use_safetensors=True).to(device)
     elif model_name == "decoder":
-        model = StableCascadeDecoderPipeline.from_pretrained("stabilityai/stable-cascade", variant="bf16", torch_dtype=dtype).to(device)
+        model = StableCascadeDecoderPipeline.from_pretrained("stabilityai/stable-cascade", variant="bf16", torch_dtype=dtype, use_safetensors=True).to(device)
     else:
         raise ValueError(f"Unknown model name: {model_name}")
     return model
