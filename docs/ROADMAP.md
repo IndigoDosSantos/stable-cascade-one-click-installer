@@ -1,11 +1,11 @@
 ### Features to Add:
 
-**3. Test Decoder Dtype Influence**
+**3. Test Decoder Dtype Influence** ✔️
 
 * **`torch.bfloat16` vs. `torch.float16`:**
-    - [ ] VRAM footprint
-    - [ ] Inference speed
-    - [ ] Image quality
+    - [x] VRAM footprint
+    - [x] Inference speed
+    - [x] Image quality
 
 **2. Batch Size Fix (>1)** ✔️
 
