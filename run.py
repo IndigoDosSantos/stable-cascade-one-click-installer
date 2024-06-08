@@ -15,6 +15,7 @@ from PIL.PngImagePlugin import PngInfo
 import re
 import torch
 import uuid
+import threading
 
 # Initialize global settings
 device = "cuda"
@@ -47,6 +48,25 @@ def clean_prompt(prompt):
     prompt = ', '.join(prompt_parts)
     return prompt
 
+def clean_prompt_with_timeout(prompt, timeout):
+    def wrapper():
+        try:
+            cleaned_prompt = clean_prompt(prompt)
+            wrapper.result = cleaned_prompt
+        except Exception as e:
+            print(f"Error occurred during prompt cleaning: {str(e)}. Using original prompt.")
+            wrapper.result = prompt
+    
+    thread = threading.Thread(target=wrapper)
+    thread.start()
+    thread.join(timeout)
+    
+    if thread.is_alive():
+        print("Prompt cleaning timed out. Using original prompt.")
+        thread.result = prompt
+    
+    return wrapper.result
+
 def generate_images(prompt, height, width, negative_prompt, guidance_scale, num_inference_steps, num_images_per_prompt, seed):
     """
     Generates images based on the provided parameters and settings.
@@ -56,8 +76,8 @@ def generate_images(prompt, height, width, negative_prompt, guidance_scale, num_
     calculated_steps_prior = int(num_inference_steps * 2 / 3)
     calculated_steps_decoder = int(num_inference_steps * 1 / 3)
 
-    # Sanitize user input prompt before using it
-    cleaned_prompt = clean_prompt(prompt)
+    # Sanitize user input prompt before using it, with a timeout of 5 seconds
+    cleaned_prompt = clean_prompt_with_timeout(prompt, timeout=5)
     print("Processed prompt:", cleaned_prompt)
 
     # Load, use, and discard the prior model
