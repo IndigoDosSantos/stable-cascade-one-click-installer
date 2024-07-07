@@ -21,6 +21,9 @@ import threading
 device = "cuda"
 dtype = torch.bfloat16
 output_directory = "./output"
+# Load the models globally, only once
+prior = None
+decoder = None
 
 def load_model(model_name):
     # Load model from disk every time it's needed
@@ -76,6 +79,15 @@ def generate_images(prompt, height, width, negative_prompt, guidance_scale, num_
     calculated_steps_prior = int(num_inference_steps * 2 / 3)
     calculated_steps_decoder = int(num_inference_steps * 1 / 3)
 
+    # Load models if they haven't been loaded yet
+    global prior, decoder
+    if prior is None:
+        prior = load_model("prior")
+        # prior.enable_model_cpu_offload()
+    if decoder is None:
+        decoder = load_model("decoder")
+        # decoder.enable_model_cpu_offload()
+
     # Sanitize user input prompt before using it, with a timeout of 5 seconds
     cleaned_prompt = clean_prompt_with_timeout(prompt, timeout=5)
     print("Processed prompt:", cleaned_prompt)
@@ -86,8 +98,7 @@ def generate_images(prompt, height, width, negative_prompt, guidance_scale, num_
         generator = torch.Generator(device).manual_seed(seed)  # Preserve for reproducibility
 
     # Load, use, and discard the prior model
-    prior = load_model("prior")
-    prior.enable_model_cpu_offload()
+    # prior.enable_model_cpu_offload()
     prior_output = prior(
         prompt=cleaned_prompt,
         height=int(height),
@@ -98,12 +109,9 @@ def generate_images(prompt, height, width, negative_prompt, guidance_scale, num_
         num_images_per_prompt=int(num_images_per_prompt),
         generator=generator,
     )
-    del prior
-    torch.cuda.empty_cache()  # Release GPU memory
 
     # Load, use, and discard the decoder model
-    decoder = load_model("decoder")
-    decoder.enable_model_cpu_offload()
+    # decoder.enable_model_cpu_offload()
     decoder_output = decoder(
         image_embeddings=prior_output.image_embeddings.to(dtype),
         prompt=cleaned_prompt,
@@ -113,8 +121,6 @@ def generate_images(prompt, height, width, negative_prompt, guidance_scale, num_
         output_type="pil",
         generator=generator,
     ).images
-    del decoder
-    torch.cuda.empty_cache()  # Release GPU memory
     
     metadata_embedded = {
      "parameters": "Stable Cascade",
